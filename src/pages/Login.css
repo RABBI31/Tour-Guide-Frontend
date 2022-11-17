@@ -1,0 +1,19 @@
+.formContainer{
+    margin: auto;
+    padding: 15px;
+    max-width: 450px;
+    align-content: center;
+    margin-top: 120px;
+}
+.headercontainer{
+    margin-bottom: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #162221;
+}
+.card-container{
+    align-items: center;
+}
+.btn-container{
+    width: 100%;
+}
