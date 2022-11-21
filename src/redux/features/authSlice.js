@@ -14,6 +14,7 @@ export const login = createAsyncThunk(
     }
   }
 );
+
 export const register = createAsyncThunk(
   "auth/register",
   async ({ formValue, navigate, toast }, { rejectWithValue }) => {
@@ -27,25 +28,26 @@ export const register = createAsyncThunk(
     }
   }
 );
-// export const googleSignIn = createAsyncThunk(
-//   "auth/googleSignIn",
-//   async ({ result, navigate, toast }, { rejectWithValue }) => {
-//     try {
-//       const response = await api.googleSignIn(result);
-//       toast.success("Google Sign-in Successfully");
-//       navigate("/");
-//       return response.data;
-//     } catch (err) {
-//       return rejectWithValue(err.response.data);
-//     }
-//   }
-// );
+
+export const googleSignIn = createAsyncThunk(
+  "auth/googleSignIn",
+  async ({ result, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.googleSignIn(result);
+      toast.success("Google Sign-in Successfully");
+      navigate("/");
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     user: null,
-    error: '',
+    error: "",
     loading: false,
   },
   reducers: {
@@ -82,21 +84,21 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload.message;
     },
-    // [googleSignIn.pending]: (state, action) => {
-    //   state.loading = true;
-    // },
-    // [googleSignIn.fulfilled]: (state, action) => {
-    //   state.loading = false;
-    //   localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
-    //   state.user = action.payload;
-    // },
-    // [googleSignIn.rejected]: (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.payload.message;
-    // },
+    [googleSignIn.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [googleSignIn.fulfilled]: (state, action) => {
+      state.loading = false;
+      localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
+      state.user = action.payload;
+    },
+    [googleSignIn.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    },
   },
-})
+});
 
-export const {setUser,setLogout} = authSlice.actions;
+export const { setUser, setLogout } = authSlice.actions;
 
-export default authSlice.reducer
+export default authSlice.reducer;

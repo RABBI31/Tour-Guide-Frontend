@@ -32,14 +32,14 @@ const AddEditTour = () => {
   const { title, description, tags } = tourData;
   const { id } = useParams();
 
-//   useEffect(() => {
-//     if (id) {
-//       const singleTour = userTours.find((tour) => tour._id === id);
-//       console.log(singleTour);
-//       setTourData({ ...singleTour });
-//     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [id]);
+  useEffect(() => {
+    if (id) {
+      const singleTour = userTours.find((tour) => tour._id === id);
+      console.log(singleTour);
+      setTourData({ ...singleTour });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   useEffect(() => {
     error && toast.error(error);
@@ -47,11 +47,19 @@ const AddEditTour = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(title && description && tags){
-        const updatedTourData = { ...tourData, name: user?.result?.name }; 
-        dispatch(createTour({ updatedTourData, navigate, toast }));
+    if (!tags.length) {
+      setTagErrMsg("Please provide some tags");
     }
-    handleClear()
+    if (title && description && tags) {
+      const updatedTourData = { ...tourData, name: user?.result?.name };
+
+      if (!id) {
+        dispatch(createTour({ updatedTourData, navigate, toast }));
+      } else {
+        dispatch(updateTour({ id, updatedTourData, toast, navigate }));
+      }
+      handleClear();
+    }
   };
   const onInputChange = (e) => {
     const { name, value } = e.target;

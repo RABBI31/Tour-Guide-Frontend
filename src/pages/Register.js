@@ -14,8 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { register } from "../redux/features/authSlice";
 
-
-
 const initialState = {
   firstName: "",
   lastName: "",
@@ -50,7 +48,13 @@ const Register = () => {
   };
   return (
     <div
-      className="formContainer"
+      style={{
+        margin: "auto",
+        padding: "15px",
+        maxWidth: "450px",
+        alignContent: "center",
+        marginTop: "120px",
+      }}
     >
       <MDBCard alignment="center">
         <MDBIcon fas icon="user-circle" className="fa-2x" />
@@ -118,7 +122,7 @@ const Register = () => {
               />
             </div>
             <div className="col-12">
-              <MDBBtn className="btn-container mt-2">
+              <MDBBtn style={{ width: "100%" }} className="mt-2">
                 {loading && (
                   <MDBSpinner
                     size="sm"

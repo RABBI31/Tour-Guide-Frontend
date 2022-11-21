@@ -12,34 +12,35 @@ import {
 } from "mdb-react-ui-kit";
 import { useSelector, useDispatch } from "react-redux";
 import { setLogout } from "../redux/features/authSlice";
+import { searchTours } from "../redux/features/tourSlice";
 import { useNavigate } from "react-router-dom";
-
+import decode from "jwt-decode";
 
 const Header = () => {
   const [show, setShow] = useState(false);
-  
+  const [search, setSearch] = useState("");
   const { user } = useSelector((state) => ({ ...state.auth }));
   const dispatch = useDispatch();
   const navigate = useNavigate();
-//   const token = user?.token;
+  const token = user?.token;
 
-//   if (token) {
-//     const decodedToken = decode(token);
-//     if (decodedToken.exp * 1000 < new Date().getTime()) {
-//       dispatch(setLogout());
-//     }
-//   }
+  if (token) {
+    const decodedToken = decode(token);
+    if (decodedToken.exp * 1000 < new Date().getTime()) {
+      dispatch(setLogout());
+    }
+  }
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (search) {
-//       dispatch(searchTours(search));
-//       navigate(`/tours/search?searchQuery=${search}`);
-//       setSearch("");
-//     } else {
-//       navigate("/");
-//     }
-//   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (search) {
+      dispatch(searchTours(search));
+      navigate(`/tours/search?searchQuery=${search}`);
+      setSearch("");
+    } else {
+      navigate("/");
+    }
+  };
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -105,7 +106,7 @@ const Header = () => {
               </MDBNavbarItem>
             )}
           </MDBNavbarNav>
-          {/* <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
+          <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
             <input
               type="text"
               className="form-control"
@@ -116,7 +117,7 @@ const Header = () => {
             <div style={{ marginTop: "5px", marginLeft: "5px" }}>
               <MDBIcon fas icon="search" />
             </div>
-          </form> */}
+          </form>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>

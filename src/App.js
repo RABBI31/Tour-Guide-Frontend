@@ -1,15 +1,20 @@
-import React, {useEffect} from "react";
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
 import { ToastContainer } from "react-toastify";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import AddEditTour from './pages/AddEditTour'
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Header from "./components/Header";
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/features/authSlice";
+import AddEditTour from "./pages/AddEditTour";
+import SingleTour from "./pages/SingleTour";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
+import NotFound from "./pages/NotFound";
+import TagTours from "./pages/TagTours";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,19 +26,43 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-      <Header />
-      <ToastContainer />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/addTour' element={<AddEditTour />} />
-        <Route path='/editTour/:id' element={<AddEditTour />} />
-      </Routes>
-        
-    </div>
+        <Header />
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tours/search" element={<Home />} />
+          <Route path="/tours/tag/:tag" element={<TagTours />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/addTour"
+            element={
+              <PrivateRoute>
+                <AddEditTour />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/editTour/:id"
+            element={
+              <PrivateRoute>
+                <AddEditTour />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/tour/:id" element={<SingleTour />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </BrowserRouter>
-    
   );
 }
 
